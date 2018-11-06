@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>DrumKit</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+		<meta name="mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+		<link rel="manifest" href="/manifest.json">
+
+		<link href="./styles/styles.css" type="text/css" rel="stylesheet">
+		<link href="./styles/normalize.css" type="text/css" rel="stylesheet">
+		<link href="./styles/skeleton.css" type="text/css" rel="stylesheet">
+
+		<script src="./components/jquery/dist/jquery.js" type="text/javascript"></script>
+		<script src="js/touchable.min.js"></script>
+		<script src="js/logger.js"></script>
+
+	</head>
+	<body>
+		<script>
+			//STUPID iOS 10 ZOOM/SCROLLING BEHAVIOUR
+			/*
+			let block = function(evt) {evt.preventDefault();};
+			document.body.addEventListener('touchmove', block);
+			document.body.addEventListener('touchstart', block);
+			document.body.addEventListener('touchend', block);
+			*/
+
+	</script>
+		<div class="wrap">
+			<section class="header">
+					<button class="button-primary" id="start">Clear coordinates</button>
+					<button class="button-primary" id="stop">Stop and Send Data (0)</button>
+			</section>
+
+			<div style="text-align:center">
+
+				<div class="beepButton">
+						<canvas id="A" width="1000" height="1000" style="background-color:#545e75"></canvas>
+					</div>
+
+					<div class="beepButton" >
+						<canvas id="B" width="1000" height="1000" style="background-color:#3f826d"></canvas>
+					</div>
+					<div style="clear:both"></div>
+
+				</div>
+
+				<textarea class="u-full-width u-full-height" placeholder="Log" id="logs"></textarea>
+			</div>
+
+		<script src="beep.js"></script>
+		<script src="drumApp.js"></script>
+	</body>
+</html>
