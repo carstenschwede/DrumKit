@@ -19,7 +19,7 @@ var __ = require('./ext');
 
 	Touchable.Instance = function(element,options) {
 		if (!element) {
-			
+
 			console.log("INVALID ELEMENT",element);
 			return false;
 		}
@@ -76,7 +76,7 @@ var __ = require('./ext');
 			}
 
 			if (!gestureType) {
-					
+
 					_.forOwn(gestureTypes,function(gestures, type) {
 						gestures.forEach(function(gesture) {
 							gesture.remove();
@@ -87,7 +87,7 @@ var __ = require('./ext');
 				}
 
 				if (!callback) {
-					
+
 
 					var gestures;
 					if ((gestures = gestureTypes[gestureType])) {
@@ -109,7 +109,7 @@ var __ = require('./ext');
 
 				console.error("GESTURE",gestureType,"IS UNKNOWN");
 			},
-		
+
 		enableTouchGesture: function(gestureType) {
 			var gestures = __.Element.retrieve(this.element,"storedGestures",{})[gestureType];
 			if (gestures) {
@@ -118,7 +118,7 @@ var __ = require('./ext');
 				});
 			}
 		},
-		
+
 		disableTouchGesture: function(gestureType) {
 			var gestures = __.Element.retrieve(this.element,"storedGestures",{})[gestureType];
 			if (gestures) {
@@ -131,7 +131,7 @@ var __ = require('./ext');
 			var self = this;
 			var args = arguments;
 
-			
+
 
 			var eventTypes = _.isArray(eventType) ? eventType : eventType.split(" ");
 
@@ -280,7 +280,7 @@ var __ = require('./ext');
 				}
 				var id = originalEvent.identifier || originalEvent.streamId || originalEvent.pointerId;
 				if (id === undefined) id = "MOUSE";
-				
+
 				var evt = {
 					"from": originalEvent.relatedTarget || originalEvent.toElement,
 					"stopped": originalEvent.stopped || false,
@@ -294,15 +294,15 @@ var __ = require('./ext');
 					"preventDefault": function() {if (originalEvent.preventDefault) originalEvent.preventDefault();},
 					"origType": origType
 				};
-				
+
 
 				evt.x = evt.clientX = evt.pageX = (evt.pageX === undefined && originalEvent.clientX !== undefined ? originalEvent.clientX : evt.pageX);
 				evt.y = evt.clientY = evt.pageY = (evt.pageY === undefined && originalEvent.clientY !== undefined ? originalEvent.clientY : evt.pageY);
-				
+
 				if (evt.target) {
-					
-					
-					
+
+
+
 					var target = evt.target;
 					while(target && (target.style["pointer-events"] == "none" || target.style.display == "none")) {
 						target = target.parentNode;
@@ -323,7 +323,7 @@ var __ = require('./ext');
 				};
 				Touchable.prepareEvent(evt);
 				var touch = Touchable.touches[evt.identifier];
-				
+
 				if (!touch && origType == 'touchstart') {
 					touch = Touchable.TouchCemetery.shift();
 					if (touch)
@@ -341,11 +341,11 @@ var __ = require('./ext');
 
 				callback(evt);
 				return evt.stopped;
-				
-				
-				
+
+
+
 			};
-			
+
 			var attachEvent = function(element, type, callback) {
 				if (!callback) {
 					return false;
@@ -371,13 +371,13 @@ var __ = require('./ext');
 				};
 				callback.wrappers[type] = prepareEvents;
 				__.Element.addListener(element,type,prepareEvents);
-				
-				
+
+
 			};
 			if (origType == "touchstart") {
 				if (element.addEventListener) {
 					element.draggable = false;
-					
+
 				}
 			}
 
@@ -387,7 +387,7 @@ var __ = require('./ext');
 			}
 
 			Touchable.BrowserEventMappings[origType].forEach(function(mappedType) {
-				
+
 				if (Touchable.nativeTouchSupport && mappedType.indexOf("mouse") >= 0) {
 				} else {
 					attachEvent(element,mappedType,callback);
@@ -399,8 +399,8 @@ var __ = require('./ext');
 			touchListeners[origType] = touchListeners[origType] || [];
 			touchListeners[origType].push(callback);
 
-			
-			
+
+
 			return element;
 		},
 		addTouchEvents: function(evts) {
@@ -483,23 +483,23 @@ var __ = require('./ext');
 			Touchable(targetElementMoveEnd).addTouchEvent('touchend',onTouches.touchend);
 		},
 		removeTouchEvent: function(type,fn) {
-			
+
 			if (!type) {
 				return this.removeTouchEvents();
 			}
 
-			
+
 			if (!_.contains(["touchstart","touchmove","touchend"],type)) {
 				console.log("REMOVE TOUCH EVENT IS ONLY FOR TOUCHSTART, TOUCHMOVE, TOUCHEND, FOR ALL OTHERS, USE REMOVE TOUCH GESTURE");
 				return;
 			}
 
-			
+
 			if (!fn || !fn.wrappers) {
 				return this.removeTouchEvents([type]);
 			}
 
-			
+
 			var elem = this.element;
 			Touchable.BrowserEventMappings[type].forEach(function(mappedType) {
 				__.Element.removeListener(elem,mappedType,fn.wrappers[mappedType]);
@@ -527,10 +527,10 @@ var __ = require('./ext');
 				return this;
 			}
 		},
-		
+
 		hasActiveGesture: function(which) {
 			var activeGestures = __.Element.retrieve(this.element,"activeGestures",{});
-			
+
 			if (!which)
 				return Object.keys(activeGestures).length > 0;
 			else
@@ -545,7 +545,7 @@ var __ = require('./ext');
 			"basics": false,
 			"gestures": false
 		},
-		
+
 		BrowserEventMappings: {
 			touchstart: ['touchstart','MozTouchDown','MSPointerDown','mousedown'],
 			touchmove: ['touchmove','MozTouchMove','MSPointerMove','mousemove'],
@@ -566,11 +566,11 @@ var __ = require('./ext');
 		states: {},
 		events: {
 			"touchmove": function(evt) {
-				
+
 			},
 			"touchend": function(evt) {
-				
-				
+
+
 				_.delay(function() {
 					if (evt.origType == "touchend" && evt.touch && evt.touch.kill) evt.touch.kill();
 				},10);
@@ -609,7 +609,7 @@ var __ = require('./ext');
 		},
 		prepareEvent: function(evt) {
 			if (evt.origType!="touchmove") {
-				
+
 				var actionTags = ["A","INPUT","TEXTAREA","SELECT","BUTTON","EMBED",'IFRAME'];
 				if (evt.target) {
 					var maxLevels = 2;
@@ -624,11 +624,11 @@ var __ = require('./ext');
 				}
 			}
 
-			
-			
-			
+
+
+
 		},
-		
+
 		init: function(options) {
 			if (Touchable.initialized) return;
 			Touchable.initialized = true;
@@ -636,7 +636,7 @@ var __ = require('./ext');
 			Modernizr.csstransforms3d = Modernizr.csstransforms3d || __.Element.transformStyleKeys.transform == "webkitTransform";
 
 			document.multitouchData = true;
-			
+
 			if (window.jQuery) {
 				var names = ["addTouchEvent","addTouchEvents","addTouchGesture","addTouchGestures"];
 				names.forEach(function(name) {
@@ -802,9 +802,9 @@ var __ = require('./ext');
 				this.touchedElement = (touchedUpdate || !this.touchedElement) ? Touchable(this.element) : this.touchedElement;
 
 				this.startElement = this.element;
-				
+
 				this.startCoordinates = {x: this.coordinates.x,y: this.coordinates.y};
-				
+
 				if (this.element) {
 					var touches = __.Element.retrieve(this.element,"touches");
 					if (touches) {
@@ -824,7 +824,7 @@ var __ = require('./ext');
 			},
 			getTrendDirection: function(timeSpan) {
 				var now = +(new Date()), trend = {x:0,y:0}, delta, eventAge, weight;
-				
+
 				var trends = 0;
 				for(var i = this.pathHistory.length-1;i>0;i--) {
 					eventAge = now - this.pathHistory[i].date;
@@ -845,7 +845,7 @@ var __ = require('./ext');
 		/*,
 		processMarkupChange: function(node) {
 			node.getAllChildren().concat(node).forEach(function(element) {
-				
+
 				var mObject = element.getAttribute("data-mt-object");
 				var attributes = JSON.decode(element.getAttribute('data-mt-attributes'));
 				if (mObject) {
@@ -3747,11 +3747,8 @@ module.exports = MathExt;
 			return result;
 		},
 		store: function(rawElem,key,value) {
-			/
-			
-
 			var id = getIDToElement(rawElem);
-			
+
 
 			Element.DataStore[id] = Element.DataStore[id] || {};
 			Element.DataStore[id][key] = value;
@@ -3765,11 +3762,11 @@ module.exports = MathExt;
 					Element.DataStore[id][key] = value;
 				}
 
-			
+
 
 			return value;
 		},
-		
+
 		transformStyleKeys: (function() {
 			var style = document.createElement('transformTest').style;
 
@@ -3832,9 +3829,9 @@ module.exports = MathExt;
 			return checks['transform'];
 
 		})(),
-		
+
 		getTransformStyleMatrix: function(rawElem,current) {
-			
+
 			var dirty = Element.retrieve(rawElem,"transformStyleMatrixDirty");
 			var matrix;
 			if (!rawElem.transformsMatrix || dirty || current) {
@@ -3848,8 +3845,8 @@ module.exports = MathExt;
 				var property;
 				if (Modernizr.csstransforms) {
 					if (current) {
-						
-						
+
+
 						console.warn("WARNING UNABLE TO USE CURRENT ON GETTRANSFORMSTYLEMATRIX");
 						console.trace();
 						property = Element.css(rawElem,key);
@@ -3874,14 +3871,14 @@ module.exports = MathExt;
 			var currentMatrix = Element.retrieve(rawElem,"transformsMatrixOrigin");
 			if (force || Element.retrieve(rawElem,"transformStyleMatrixOriginDirty") || !currentMatrix) {
 
-			
-				
+
+
 				var transforms = Element.getTransformStyle(rawElem);
 
-				
-				
+
+
 				var size = Element.size(rawElem);
-				
+
 				var origin = {
 					x: size.offsetWidth/2,
 					y: size.offsetHeight/2
@@ -3903,13 +3900,13 @@ module.exports = MathExt;
 				return currentMatrix;
 			}
 		},
-		
-		getNestedTransformStyleMatrix: function(rawElem,debug,offsets) { 
+
+		getNestedTransformStyleMatrix: function(rawElem,debug,offsets) {
 			var matrix = new window.CSSMatrix();
 			var parents = Element.cachedParents(rawElem).reverse().slice(2).concat(rawElem);
 
 
-			
+
 			for(var i=0;i<parents.length;i++) {
 				var current = parents[i];
 				var currentMatrix = Element.getTransformStyleMatrixOrigin(current,debug);
@@ -3917,7 +3914,7 @@ module.exports = MathExt;
 				if (offsets) {
 					var size = Element.size(current);
 
-					
+
 					if (Element.ccss(current,"position") == "static") {
 						var c = new window.CSSMatrix().translate(-size.offsetLeft,-size.offsetTop,0);
 						currentMatrix = c.multiply(currentMatrix);
@@ -3927,8 +3924,8 @@ module.exports = MathExt;
 					currentMatrix = trMatrix.multiply(currentMatrix);
 				}
 
-				var k1 = parseFloat(Element.ccss(current,"border-left"));
-				var k2 = parseFloat(Element.ccss(current,"border-top"));
+				var k1 = parseFloat(Element.ccss(current,"border-left") || 0);
+				var k2 = parseFloat(Element.ccss(current,"border-top") || 0);
 
 				var trMatrixA = new window.CSSMatrix().translate(k1,k2,0);
 				matrix = matrix.multiply(currentMatrix);
@@ -3937,7 +3934,7 @@ module.exports = MathExt;
 
 			return matrix;
 		},
-		
+
 		getTransformStyle: function(rawElem,useCurrent) {
 			var transforms = Element.retrieve(rawElem,'transforms');
 			if (!transforms || useCurrent) {
@@ -3952,7 +3949,7 @@ module.exports = MathExt;
 
 			return transforms;
 		},
-		
+
 		updateTransitions: function(rawElem) {
 			var transitions = Element.retrieve(rawElem,"transitions",{});
 
@@ -3976,7 +3973,7 @@ module.exports = MathExt;
 			transitions[what].what = what;
 			Element.updateTransitions(rawElem);
 		},
-		
+
 		getTransitions: function(rawElem) {
 			return Element.retrieve(rawElem,"transitions",{});
 		},
@@ -4009,7 +4006,7 @@ module.exports = MathExt;
 				}
 			}
 
-			
+
 			return rawElem;
 		},
 
@@ -4030,11 +4027,11 @@ module.exports = MathExt;
 				}
 			}
 
-			
+
 		},
 		resetTransformStyle: function(rawElem) {
 
-			
+
 
 			Element.setTransformStyle(rawElem,{
 				translateX:0,translateY:0,translateZ:0,
@@ -4046,10 +4043,10 @@ module.exports = MathExt;
 			return rawElem;
 		},
 		setTransformStyle: function(rawElem,styles,noParticleUpdate,noDurationReset) {
-			
-			
 
-			
+
+
+
 			if (!rawElem) return;
 			if (!styles) return;
 			var transforms = Element.retrieve(rawElem,"transforms") || Element.getTransformStyle(rawElem);
@@ -4070,7 +4067,7 @@ module.exports = MathExt;
 				delete styles.scale;
 			}
 
-			
+
 			var digits = 1000;
 			styles.translateX = (styles.translateX !== undefined ? ~~(styles.translateX*digits)/digits : transforms.translateX);
 			styles.translateY = (styles.translateY !== undefined ? ~~(styles.translateY*digits)/digits : transforms.translateY);
@@ -4093,25 +4090,25 @@ module.exports = MathExt;
 				if (transforms.origin) {
 					styles.origin = transforms.origin;
 				} else {
-					
+
 				}
 			}
 
-			
 
-			
-			
 
-			
+
+
+
+
 
 
 
 			var useIEMatrix = !Modernizr.csstransforms3d && !Modernizr.csstransforms;
 
 			var str;
-			
+
 			var transformKeys = Element.transformStyleKeys;
-			
+
 
 			if (transformKeys) {
 				if ((Modernizr.csstransforms3d) || (transformKeys.transform == "webkitTransform")) {
@@ -4131,20 +4128,20 @@ module.exports = MathExt;
 						}
 						Element.css(rawElem,transformKeys.transform,str);
 					} else {
-						
+
 
 						if (useIEMatrix) {
 							var matrix = new CSSMatrix("translate3d("+styles.translateX + "px," + styles.translateY + "px," + styles.translateZ +"px) rotateX("+styles.rotateX+"deg) rotateY("+styles.rotateY+"deg) rotateZ("+(-styles.rotateZ) + "deg) scaleX("+styles.scaleX+") scaleY("+styles.scaleY+") scaleZ("+styles.scaleZ+")");
 							var filters = typeof(rawElem.filters) !== undefined;
-							
+
 
 							if (filters) {
 								if(rawElem.filters.item("DXImageTransform.Microsoft.Matrix")) {
 									rawElem.style.msFilter = rawElem.style.filter = (rawElem.style.filter ? '' : ' ' ) + "progid:DXImageTransform.Microsoft.Matrix(sizingMethod='auto expand')";
 								}
-								
 
-								
+
+
 								rawElem.filters.item("DXImageTransform.Microsoft.Matrix").M11 = matrix.m11;
 								rawElem.filters.item("DXImageTransform.Microsoft.Matrix").M12 = matrix.m12;
 								rawElem.filters.item("DXImageTransform.Microsoft.Matrix").M21 = matrix.m21;
@@ -4159,7 +4156,7 @@ module.exports = MathExt;
 						}
 
 						Element.css(rawElem,{
-							
+
 							left: styles.translateX,
 							top: styles.translateY
 						});
@@ -4172,13 +4169,13 @@ module.exports = MathExt;
 				}
 
 			} else {
-				
+
 
 
 
 
 				Element.css(rawElem,{
-					
+
 					left: styles.translatX,
 					top: styles.translateY
 				});
@@ -4187,16 +4184,16 @@ module.exports = MathExt;
 
 
 
-			
+
 			noParticleUpdate = true;
 			if (!noParticleUpdate && elem.particle) {
-				
-				
+
+
 				elem.particle.onExternalUpdate(styles);
 			}
 		}
-		
-		
+
+
 		,
 		getNestedCenter: function(rawElem,maxNode) {
 			var corners = Element.getNestedCorners(rawElem,maxNode);
@@ -4205,7 +4202,7 @@ module.exports = MathExt;
 		getNestedCorners: function(rawElem,maxNode,extend) {
 			extend = extend || 0;
 			var t = Element.getNestedTransformStyle(rawElem);
-			
+
 			var size = Element.size(rawElem);
 			var widthOfElement = {
 				x:size.offsetWidth*t.scaleX,
@@ -4257,16 +4254,16 @@ module.exports = MathExt;
 
 							var callback = function(evt) {
 								if (evt.propertyName == type) {
-									
+
 
 									var evtData = false;
 
-									
+
 									var i = 0;
 									callbacks.forEach(function(callback) {
-										
+
 										__.Element.globalEventData[type][id].data.forEach(function(data) {
-											
+
 											callback(data);
 										});
 									});
@@ -4275,12 +4272,12 @@ module.exports = MathExt;
 
 								}
 							};
-							
+
 							rawElem.attachEvent('onpropertychange', callback);
 						}
 
 						__.Element.globalEventData[type][id].callbacks.push(fn);
-						
+
 					}
 				} else {
 					console.log("UNABLE TO BIND EVENT");
@@ -4290,7 +4287,7 @@ module.exports = MathExt;
 		},
 		removeListener: function(rawElem,type, fn){
 
-			
+
 			if (rawElem.removeEventListener) {
 				rawElem.removeEventListener(type, fn);
 			} else {
@@ -4324,16 +4321,16 @@ module.exports = MathExt;
 				return "";
 			}
 
-			
+
 			key = key.replace(/-(\w)/g,function(all,letter) {
 				return letter.toUpperCase();
 			});
-			
+
 			var value = styleObject[key];
 			return value;
 		},
 		css: function(rawElem,key,value) {
-			
+
 			if (!rawElem || !rawElem.style) {
 				console.trace();
 				console.log("WRONG ELEMENT",rawElem);
@@ -4361,7 +4358,7 @@ module.exports = MathExt;
 (function(global){	var __ = require('./basic');
 	var CSSMatrix = global.CSSMatrix || require('./CSSMatrixStripped');
 
-	
+
 
 	var $M = function(elems) {
 		return new Matrix(elems);
@@ -4370,7 +4367,7 @@ module.exports = MathExt;
 		this.elements = elems;
 		return this;
 	};
-	
+
 
 	var $V = function(elems) {
 		return new Vector(elems);
@@ -4547,39 +4544,39 @@ CSSMatrix.unmatrix = function(cssmatrix) {
 
 	perspectiveMatrix.elements[3][3] = 1;
 
-	
 
-	
+
+
 	var perspective =  Vector.Zero(4);
 	var translate =  Vector.Zero(3), rotate = Vector.Zero(3), scale = Vector.Zero(3), skew = Vector.Zero(3);
 
 	if (matrix.elements[0][3] !== 0 || matrix.elements[1][3] !== 0 || matrix.elements[2][3] !== 0) {
-		
+
 	} else {
-		
+
 		perspective.elements[0] = perspective.elements[1] = perspective.elements[2] = 0;
 		perspective.elements[3] = 1;
 	}
 
-	
+
 	for (i = 0; i < 3; i++) {
 		translate.elements[i] = matrix.elements[3][i];
 	}
-	
+
 	var row = [];
 	for (i = 0; i < 3; i++) {
 		row[i] = $V([matrix.elements[i][0],matrix.elements[i][1],matrix.elements[i][2]]);
 	}
 
-	
+
 	scale.elements[0] = row[0].modulus();
 	row[0] = row[0].toUnitVector();
 
-	
+
 	skew.elements[0] = row[0].dot(row[1]);
 	row[1] = combine(row[1], row[0], 1.0, -skew.elements[0]);
 
-	
+
 	scale.elements[1] = row[1].modulus();
 	row[1] = row[1].toUnitVector();
 	skew.elements[0] /= scale.elements[1];
@@ -4625,7 +4622,7 @@ CSSMatrix.unmatrix = function(cssmatrix) {
 		rotate.elements[i] = rotate.elements[i]/Math.PI*180;
 	}
 
-	
+
 	var result = {
 		translateX: __.Math.eps(translate.elements[0]),
 		translateY: __.Math.eps(translate.elements[1]),
@@ -4648,7 +4645,7 @@ module.exports = CSSMatrix;
 
 })(window)
 },{"./basic":22,"./CSSMatrixStripped":29}],29:[function(require,module,exports){
-	
+
 
 	var	between = function(str,a,b) {
 		var posA = str.indexOf(a);
@@ -4923,7 +4920,7 @@ module.exports = CSSMatrix;
 			sinA  = Math.sin(a);
 			sinA2 = sinA* sinA;
 
-			
+
 			if (len === 0) {
 				x = 0;
 				y = 0;
@@ -5108,7 +5105,7 @@ module.exports = CSSMatrix;
 				}
 			}
 
-			
+
 		};
 
 
@@ -5117,7 +5114,7 @@ module.exports = CSSMatrix;
 
 			if (this.isAffine()) {
 				prefix = "matrix(";
-				
+
 				points = ["m11", "m12", "m21", "m22", "m41", "m42"];
 
 			} else {
