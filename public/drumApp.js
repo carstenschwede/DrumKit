@@ -43,15 +43,19 @@ Touchable.on("ready", function(_,__) {
 
 	['A','B'].forEach(buttonId => {
 		const elem = $('#' + buttonId);
+		const canvas = elem[0];
+
+		const canvasResolution = 1024;
+		canvas.width = canvas.height = canvasResolution;
 
 		/*
 			DRAW BUTTONS
 		*/
-		var ctx=elem[0].getContext("2d");
+		var ctx=canvas.getContext("2d");
 		let buttonRadius = 100;
 		let buttonColor = "#EF5B5B";
 
-		let canvasSize = {x:elem[0].width,y:elem[0].height};
+		let canvasSize = {x:canvas.width,y:canvas.height};
 		let buttonDistance = canvasSize.x*0.25;
 
 		let center = {x:0,y:0};
@@ -65,13 +69,20 @@ Touchable.on("ready", function(_,__) {
 			ctx.arc(center.x,center.y,buttonRadius,0,2*Math.PI);
 			ctx.fillStyle = buttonColor;
 			ctx.fill();
+
+			ctx.beginPath();
+			ctx.arc(center.x,center.y,buttonRadius+1,0,2*Math.PI);
+			ctx.lineWidth = 10;
+			ctx.strokeStyle = "black";
+			ctx.stroke();
+
 		}
 
 
 		/*
 			REGISTER TOUCH EVENTS AND CALCULATE RELATIVE COORDINATES
 		*/
-		let buttonSize = __.Element.size(elem[0],true)
+		let buttonSize = __.Element.size(canvas,true)
 
 		elem.addTouchEvent("touchstart",function(evt) {
 			let coords = evt.touch.getRelativeCoordinates().coordinates;

@@ -18,16 +18,6 @@
 
 	</head>
 	<body>
-		<script>
-			//STUPID iOS 10 ZOOM/SCROLLING BEHAVIOUR
-			/*
-			let block = function(evt) {evt.preventDefault();};
-			document.body.addEventListener('touchmove', block);
-			document.body.addEventListener('touchstart', block);
-			document.body.addEventListener('touchend', block);
-			*/
-
-	</script>
 		<div class="wrap">
 			<section class="header">
 					<button class="button-primary" id="start">Clear coordinates</button>
@@ -35,20 +25,19 @@
 			</section>
 
 			<div style="text-align:center">
-
 				<div class="beepButton">
-						<canvas id="A" width="1000" height="1000" style="background-color:#545e75"></canvas>
-					</div>
-
-					<div class="beepButton" >
-						<canvas id="B" width="1000" height="1000" style="background-color:#3f826d"></canvas>
-					</div>
-					<div style="clear:both"></div>
-
+					<canvas id="A" style="background-color:#545e75"></canvas>
 				</div>
 
-				<textarea class="u-full-width u-full-height" placeholder="Log" id="logs"></textarea>
+				<div class="beepButton" >
+					<canvas id="B" style="background-color:#3f826d"></canvas>
+				</div>
+				<div style="clear:both"></div>
+
 			</div>
+
+			<textarea class="u-full-width u-full-height" placeholder="Log" id="logs"></textarea>
+		</div>
 
 		<script src="beep.js"></script>
 		<script src="drumApp.js"></script>
