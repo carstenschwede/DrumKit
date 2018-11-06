@@ -4,7 +4,9 @@ div.wrap {height:100%; overflow:hidden;}
 body::-webkit-scrollbar {
 	display: none;
 }
-
+html {
+	touch-action: manipulation;
+}
 body {
 	background-color:#f3dad8;
 }
