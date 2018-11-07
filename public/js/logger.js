@@ -1,5 +1,11 @@
+
+const ONLY_ONE_LOG_LINE = true;
+
 const log = function(...args) {
-	let text = "[" + new Date().toLocaleTimeString() + "]: " + args.join(",") + "\n" + $('#logs').text();
+	let text = "[" + new Date().toLocaleTimeString() + "]: " + args.join(",") + "\n";
+	if (!ONLY_ONE_LOG_LINE) {
+		text += $('#logs').text();
+	}
 	$('#logs').text(text);
 }
 
