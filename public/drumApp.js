@@ -96,6 +96,11 @@ Touchable.on("ready", function(_,__) {
 			beep(freq);
 			evt.preventDefault();
 
+			//CREATE SHORTER COORDS REPRESENTATION
+			coords.x = +(coords.x).toFixed(3);
+			coords.y = +(coords.y).toFixed(3);
+			delete coords.z;
+
 			//DISPATCH EVENT WITH DATA FOR RECORDING
 			window.dispatchEvent(new CustomEvent("fingerTouch",{detail:{
 				buttonId,coords,time:Date.now(),freq
