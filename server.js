@@ -1,6 +1,11 @@
 const fs = require("fs");
 const handleCoordinatePost = function(data) {
-	const filePath = "./json/output_" + Date.now() + ".json";
+	const outputDir = "./json/";
+	if (!fs.existsSync(outputDir)){
+    		fs.mkdirSync(outputDir);
+	}
+
+	const filePath = outputDir + "output_" + Date.now() + ".json";
 	fs.writeFileSync(filePath,JSON.stringify(data));
 	console.log("Written data to",filePath);
 }
