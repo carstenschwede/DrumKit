@@ -99,6 +99,7 @@ Touchable.on("ready", function(_,__) {
 			//CREATE SHORTER COORDS REPRESENTATION
 			coords.x = +(coords.x).toFixed(3);
 			coords.y = +(coords.y).toFixed(3);
+			freq = +(freq).toFixed(2);
 			delete coords.z;
 
 			//DISPATCH EVENT WITH DATA FOR RECORDING
